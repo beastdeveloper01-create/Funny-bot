@@ -1,18 +1,16 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 import os
 import logging
 import sys
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 import asyncio
 
 # Enable logging
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='%(asime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
-logger = logging.getLogger(name)
+logger = logging.getLogger(name)  # Fixed: changed 'name' to 'name'
 
 # Get token from environment variable
 TOKEN = os.environ.get('BOT_TOKEN')
@@ -58,7 +56,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• User info display\n"
         "• Environment variable test"
     )
-    await update.message.reply_text(help_text, parse_mode='Markdown')
+    await update.message.reply_text(help_text)
 
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Check bot status and environment."""
@@ -81,7 +79,7 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"• Working Directory: {os.getcwd()}\n"
         f"• Memory: {memory_info}"
     )
-    await update.message.reply_text(status_text, parse_mode='Markdown')
+    await update.message.reply_text(status_text)
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Echo the user message."""
@@ -103,7 +101,7 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"• Language: {user.language_code or 'Unknown'}\n"
         f"• Bot: {'Yes' if user.is_bot else 'No'}"
     )
-    await update.message.reply_text(info_text, parse_mode='Markdown')
+    await update.message.reply_text(info_text)
 
 async def test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Run connectivity tests."""
@@ -140,7 +138,7 @@ async def test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"• Python: Working\n"
         f"• Bot Framework: Working"
     )
-    await update.message.reply_text(test_results, parse_mode='Markdown')
+    await update.message.reply_text(test_results)
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle regular messages."""
@@ -167,15 +165,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  "• Inline keyboards\n"
                  "• Environment variable usage\n"
                  "• Message processing\n\n"
-                 "Created for testing purposes.",
-            parse_mode='Markdown'
+                 "Created for testing purposes."
         )
     elif query.data == 'help':
         await query.edit_message_text(
             text="🆘 Quick Help\n\n"
                  "Commands: /start, /help, /status, /info, /test\n"
-                 "Features: Buttons, echo, user info",
-            parse_mode='Markdown'
+                 "Features: Buttons, echo, user info"
         )
 
 def main():
@@ -204,7 +200,7 @@ def main():
     # Run the bot
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
-if name == 'main':
+if name == 'main':  # Fixed: added double underscores
     try:
         main()
     except KeyboardInterrupt:
